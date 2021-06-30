@@ -5,16 +5,6 @@ export default class Slide {
         this.dist = { finalPosition: 0, startX: 0, movement: 0 };
     }
 
-    moveSlide(distX) {
-        this.dist.movePosition = distX;
-        this.slide.style.transform = `translate3d(${distX}px, 0, 0)`;
-    }
-
-    updatePosition(clientX) {
-       this.dist.movement =  (clientX - this.dist.startX) * 2;
-       return this.dist.finalPosition + this.dist.movement;
-    }
-
     onStart(event) {
         event.preventDefault();
         this.dist.startX = event.clientX;
@@ -23,9 +13,19 @@ export default class Slide {
     }
 
     onMove(event) {
-       const finalPosition = this.updatePosition(event.clientX);
-       this.moveSlide(finalPosition)
+        const finalPosition = this.updatePosition(event.clientX);
+        this.moveSlide(finalPosition)
+ 
+     }
 
+    updatePosition(clientX) {
+        this.dist.movement =  (clientX - this.dist.startX) * 2;
+        return this.dist.finalPosition + this.dist.movement;
+    }
+
+    moveSlide(distX) {
+        this.dist.movePosition = distX;
+        this.slide.style.transform = `translate3d(${distX}px, 0, 0)`;
     }
 
     onEnd() {
@@ -36,6 +36,7 @@ export default class Slide {
     addSlideEvents() {
         this.wrapper.addEventListener('mousedown', this.onStart);
         this.wrapper.addEventListener('mouseup', this.onEnd);
+        this.wrapper.addEventListener('mouseleave', this.onEnd);
     }
 
     bindEvents() {
