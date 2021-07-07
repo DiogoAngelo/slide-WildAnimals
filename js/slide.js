@@ -43,14 +43,9 @@ export default class Slide {
         const moveType = (event.type === 'mouseup') ? 'mousemove' : 'touchmove';
         this.wrapper.removeEventListener(moveType, this.onMove);
         this.dist.finalPosition = this.dist.totalDistance;
-        this.transition(true)
-        this.changeSlideOnEnd();
-    }
+        this.transition(true);
 
-    bindEvents() {
-        this.onStart = this.onStart.bind(this);
-        this.onEnd = this.onEnd.bind(this);
-        this.onMove = this.onMove.bind(this);
+        this.changeSlideOnEnd();
     }
 
     // Slide Config 
@@ -61,7 +56,7 @@ export default class Slide {
     }
 
     getPosition() {
-        this.slideArray = [...this.slide.children].map((element)=> {
+        this.slideArray = [...this.slide.children].map((element) => {
         const position = this.centerElements(element);
         
             return { element, position }
@@ -81,6 +76,14 @@ export default class Slide {
         this.moveSlide(this.slideArray[index].position);
         this.slideIndex(index);
         this.dist.finalPosition = this.slideArray[index].position;
+        this.addActiveClass();
+    }
+
+    addActiveClass() {
+        this.slideArray.forEach((item) => {
+            item.element.classList.remove('ativo');
+        })
+        this.slideArray[this.index.active].element.classList.add('ativo');
     }
 
     activePrevSlide() {
@@ -111,11 +114,30 @@ export default class Slide {
         this.wrapper.addEventListener('touchstart', this.onStart);
         this.wrapper.addEventListener('touchend', this.onEnd);
     }
+    // adjust slide on screen when resized
+    onResize() {
+        setTimeout(() => {
+            this.getPosition();
+            this.moveCenteredSlide(this.index.active);
+        }, 500);
+    }
+
+    addResizeEvent() {
+        window.addEventListener('resize', this.onResize);
+    }
+    // ---------------------------------------------------------
+    bindEvents() {
+        this.onStart = this.onStart.bind(this);
+        this.onEnd = this.onEnd.bind(this);
+        this.onMove = this.onMove.bind(this);
+        this.onResize = this.onResize.bind(this);
+    }
 
     init() {
         this.bindEvents();
         this.transition(true);
         this.addEvents();
         this.getPosition();
+        this.addResizeEvent();
     }
 }

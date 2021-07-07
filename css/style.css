@@ -16,9 +16,26 @@ img {
 .slide {
     display: flex;
 }
+
+.slide:hover {
+    will-change: transform;
+}
 .slide li {
     width: 80vw;
     flex-shrink: 0;
     max-width: 800px;
     margin: 0 20px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,1);
+
+    opacity: .8;
+    transform: scale(.8);
+    transition: .5s;
+}
+
+.slide li.ativo {
+    opacity: 1;
+    transform: scale(1);
+
 }
