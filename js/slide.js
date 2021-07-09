@@ -148,7 +148,7 @@ export class Slide {
     }
 }
 
-export class SlideNav extends Slide {
+export default class SlideNav extends Slide {
 
     addArrow(prev, next) {
         this.prevElement = document.querySelector(prev);
@@ -186,8 +186,8 @@ export class SlideNav extends Slide {
         this.controlArray[this.index.active].classList.add('ativo');
     }
 
-    addControl() {
-        this.control = this.createControl();
+    addControl(chooseControl) {
+        this.control = document.querySelector(chooseControl) || this.createControl();
         this.controlArray = [...this.control.children];
         this.activeControlItem();
 
