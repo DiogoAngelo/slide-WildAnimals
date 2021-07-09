@@ -37,5 +37,27 @@ img {
 .slide li.ativo {
     opacity: 1;
     transform: scale(1);
+}
 
+[data-control="slide"] {
+    display: flex;
+    justify-content: center;
+}
+
+[data-control="slide"] li a{
+    display: block;
+    height: 12px;
+    width: 12px;
+    overflow: hidden;
+    text-indent: -9999px;
+    cursor: pointer;    
+    background-color: #fb5;
+    border-radius: 50%;
+    margin: 20px 5px;
+
+}
+
+[data-control="slide"] li.ativo a, 
+[data-control="slide"] li a:hover {
+    background-color: #e54;
 }
